@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     base_model model;
     fl.Load(model,)
     cobj.add()
+            //need model with highmodel and nowmodel
 }
 
 MainWindow::~MainWindow()
