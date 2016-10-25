@@ -24,6 +24,9 @@ public:
         return "model";
     }
 
+    model get_high_model(void);
+    void set_high_model(model &md);
+
     void move(float posX = 0, float posY = 0, float posZ = 0);
     void rotate(float angle, float X,float Y ,float Z);
     void scale(float factor);
@@ -37,11 +40,11 @@ public:
     bool isEmpty() override final;
 
 
-    QVector<Polygon>::const_iterator begin() override final
+    QVector<Polygon>::const_iterator begin()
     {
         return polygons.begin();
     }
-    QVector<Polygon>::const_iterator end() override final
+    QVector<Polygon>::const_iterator end()
     {
         return polygons.end();
     }
@@ -56,6 +59,7 @@ private:
     QVector<Polygon> polygons;
     QVector3D _centre;
     int k_tes;
+    model* high_model;
 };
 #include "base_model_transf.h"
 #endif // MODEL_H

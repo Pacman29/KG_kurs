@@ -35,15 +35,17 @@ public:
     {
         return "composit object";
     }
-    QVector<base_obj*>::const_iterator begin()
+
+    QVector<base_obj*>::iterator begin()
     {
         return objects.begin();
     }
-    QVector<base_obj*>::const_iterator end()
+    QVector<base_obj*>::iterator end()
     {
         return objects.end();
     }
-    typedef QVector<base_obj*>::const_iterator const_iterator;
+    //typedef QVector<base_obj*>::const_iterator const_iterator;
+    typedef QVector<base_obj*>::iterator iterator;
     bool isEmpty()
     {
         return this->objects.isEmpty();

@@ -9,14 +9,21 @@ MainWindow::MainWindow(QWidget *parent) :
     QPixmap pix(ui->label->height(),ui->label->width());
     pix.fill();
     ui->label->setPixmap(pix);
-    base_model model;
-    fl.Load(model,)
-    cobj.add()
+    model md, h_md;
+    fl.Load(md,"C:/KG_Kurs/Models/low_cube.txt",Qt::green);
+    fl.Load(h_md,"C:/KG_Kurs/Models/high_cube.txt",Qt::green);
+    md.set_high_model(h_md);
+    cobj.add(&md);
+    camera cam;
             //need model with highmodel and nowmodel
+    this->pntr = new painter(&pix);
+    gr.set_scene(*this->pntr);
+    gr.Draw_scene(this->cobj,cam);
+    ui->label->setPixmap(pix);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
-/*14****
+

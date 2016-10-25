@@ -25,6 +25,26 @@ bool file_loaderImpl::Load(base_model &Unit, const char *Name)
     return true;
 }
 
+bool file_loaderImpl::Load(base_model &Unit, const char *Name, QColor clr)
+{
+    FILE* tmp = NULL;
+    try
+    {
+        _Open_File(tmp, Name);
+        while(!feof(tmp))
+            Unit.add_poligon(get_polygon(tmp,clr));
+        Unit.set_name(Name);
+        Unit.init_centre();
+        _Close_File(tmp);
+    }
+    catch(base_error&)
+    {
+        _Close_File(tmp);
+        return false;
+    }
+    return true;
+}
+
 
 void file_loaderImpl::_Open_File(FILE*& FileLoader, const char *Name)
 {
@@ -43,6 +63,14 @@ Polygon file_loaderImpl::get_polygon(FILE *&f)
     for(size_t i=0; i!=3; ++i)
         vec.push_back(this->get_point(f));
     return Polygon(vec[0],vec[1],vec[2],this->get_color(f));
+}
+
+Polygon file_loaderImpl::get_polygon(FILE *&f, QColor clr)
+{
+    QVector<Point3D> vec;
+    for(size_t i=0; i!=3; ++i)
+        vec.push_back(this->get_point(f));
+    return Polygon(vec[0],vec[1],vec[2],clr);
 }
 
 Point3D file_loaderImpl::get_point(FILE *&f)

@@ -63,6 +63,16 @@ void model::set_centre(float x, float y, float z)
     this->_centre.setZ(z);
 }
 
+model model::get_high_model()
+{
+    return *(this->high_model);
+}
+
+void model::set_high_model(model &md)
+{
+    this->high_model = &md;
+}
+
 void model::move(float posX, float posY, float posZ)
 {
     QMatrix4x4 tmp;
