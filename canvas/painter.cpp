@@ -17,7 +17,7 @@ void painterImpl::draw_polygon(QPixmap* pix,Polygon plg)
     size_t _centre_x = pix->width()/2;
     size_t _centre_y = pix->height()/2;
     QPainter pntr(pix);
-    pntr.setPen(plg.get_color());
+    pntr.setPen(Qt::black);
     pntr.setBrush(QBrush(plg.get_color()));
 
     QPointF pnts[3] = {

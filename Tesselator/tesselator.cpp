@@ -6,7 +6,7 @@ tesselator::tesselator()
 
 }
 
-void tesselator::tesselate(tesselator::tess_state state, model &mdl, model& high_model)
+void tesselator::tesselate(tesselator::tess_state state, model* mdl, model high_model)
 {
     switch (state) {
     case UP:
@@ -18,13 +18,14 @@ void tesselator::tesselate(tesselator::tess_state state, model &mdl, model& high
     }
 }
 
-void tesselator::tesselate_up(model &mdl,model& high_model)
+void tesselator::tesselate_up(model *mdl, model& high_model)
 {
-    model tmp_model = mdl;
-    mdl.polygons.clear();
+    model tmp_model = *mdl;
+    mdl->polygons.clear();
     if(tmp_model.polygons.size() == high_model.polygons.size()/4)
     {
-        mdl = high_model;
+        *mdl = high_model;
+        mdl->set_high_model(high_model);
         return;
     }
 
@@ -43,23 +44,24 @@ void tesselator::tesselate_up(model &mdl,model& high_model)
         correct(p1, p2, p3, high_model, i/gran*256);
         i++;
 
+        fill.set_color(tmp.get_color());
         fill.set_vertexes(p1,p2,p3);
-        mdl.polygons.push_back(fill);
+        mdl->polygons.push_back(fill);
         fill.set_vertexes(p1,p2,tmp[0]);
-        mdl.polygons.push_back(fill);
+        mdl->polygons.push_back(fill);
         fill.set_vertexes(p2,p3,tmp[2]);
-        mdl.polygons.push_back(fill);
+        mdl->polygons.push_back(fill);
         fill.set_vertexes(p3,p1,tmp[1]);
-        mdl.polygons.push_back(fill);
+        mdl->polygons.push_back(fill);
     }
 
 }
 
-void tesselator::tesselate_down(model &mdl, model &high_model)
+void tesselator::tesselate_down(model* mdl, model &high_model)
 {
-    model tmp_model = mdl;
+    model tmp_model = *mdl;
     Polygon t_pol, res_pol;
-    mdl.polygons.clear();
+    mdl->polygons.clear();
     while (!tmp_model.polygons.empty())
     {
         t_pol = tmp_model.polygons[0];
@@ -74,7 +76,7 @@ void tesselator::tesselate_down(model &mdl, model &high_model)
                     tmp_model.polygons.erase(it);
                     it = tmp_model.polygons.end();
                 }
-        mdl.polygons.push_back(res_pol);
+        mdl->polygons.push_back(res_pol);
     }
 }
 

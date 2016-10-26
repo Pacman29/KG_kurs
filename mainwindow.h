@@ -10,6 +10,7 @@
 #include "canvas/graphical_sys.h"
 #include "Camera/camera.h"
 #include "canvas/painter.h"
+#include "Tesselator/tesselator.h"
 
 namespace Ui {
 class MainWindow;
@@ -21,9 +22,16 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
+    void _show();
     ~MainWindow();
+private slots:
+    void anim();
 
 private:
+    camera cam;
+    size_t i;
+    QPixmap* pix;
+    tesselator ts;
     painter* pntr;
     file_loader fl;
     composit_object cobj;
