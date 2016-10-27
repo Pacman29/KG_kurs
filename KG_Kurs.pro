@@ -68,3 +68,9 @@ HEADERS  += mainwindow.h \
     Visible_trans/visible_trans.h
 
 FORMS    += mainwindow.ui
+
+DISTFILES += \
+    Models/high_cube.txt \
+    Models/high_sphere.txt \
+    Models/low_cube.txt \
+    Models/low_sphere.txt
