@@ -19,6 +19,12 @@ public:
     void init_centre() override final;
     void set_centre(Point3D centre);
     void set_centre(float x,float y,float z);
+
+    int get_size()
+    {
+        return this->polygons.size();
+    }
+
     const char* type_object()
     {
         return "model";

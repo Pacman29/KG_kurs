@@ -3,6 +3,7 @@
 #include "base_loader.h"
 #include "loader_error.h"
 #include <iostream>
+#include <QFile>
 #include "Model/polygon.h"
 class file_loaderImpl : public base_loaderImpl
 {
@@ -18,6 +19,23 @@ private:
     QColor get_color(FILE*& f);
     
 };
+
+class file_loaderImpl_QFile : public base_loaderImpl
+{
+public:
+    file_loaderImpl_QFile(): fin(NULL){}
+    bool Load(base_model &Unit, const char *Name);
+    bool Load(base_model &Unit, const char *Name, QColor clr);
+private:
+    QFile* fin;
+    void _Open_QFile(const char *Name);
+    void _Close_QFile(void);
+    Polygon get_polygon(void);
+    Polygon get_polygon(QColor clr);
+    Point3D get_point(void);
+    QColor get_color(void);
+};
+
 
 class file_loader : public base_loader
 {

@@ -6,21 +6,22 @@ tesselator::tesselator()
 
 }
 
-void tesselator::tesselate(tesselator::tess_state state, model* mdl, model high_model)
+void tesselator::tesselate(tesselator::tess_state state, model* mdl)
 {
     switch (state) {
     case UP:
-        tesselate_up(mdl,high_model);
+        tesselate_up(mdl);
         break;
     case DOWN:
-        tesselate_down(mdl,high_model);
+        tesselate_down(mdl);
         break;
     }
 }
 
-void tesselator::tesselate_up(model *mdl, model& high_model)
+void tesselator::tesselate_up(model *mdl)
 {
     model tmp_model = *mdl;
+    model high_model = (*mdl).get_high_model();
     mdl->polygons.clear();
     if(tmp_model.polygons.size() == high_model.polygons.size()/4)
     {
@@ -32,6 +33,8 @@ void tesselator::tesselate_up(model *mdl, model& high_model)
     Point3D p1,p2,p3;
     Polygon tmp, fill;
     int i = 0;
+    qDebug() << tmp_model.polygons.size();
+    qDebug() << high_model.polygons.size();
     int gran = tmp_model.polygons.size()*256/high_model.polygons.size();  // учесть № грани!
     while (!tmp_model.polygons.empty())
     {
@@ -57,7 +60,7 @@ void tesselator::tesselate_up(model *mdl, model& high_model)
 
 }
 
-void tesselator::tesselate_down(model* mdl, model &high_model)
+void tesselator::tesselate_down(model* mdl)
 {
     model tmp_model = *mdl;
     Polygon t_pol, res_pol;

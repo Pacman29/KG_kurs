@@ -10,11 +10,11 @@ public:
     enum tess_state {UP,DOWN};
     tesselator();
 
-    void tesselate(tess_state state, model *mdl, model high_model);
+    void tesselate(tess_state state, model *mdl);
     friend class model;
 private:
-    void tesselate_up(model* mdl,model& high_model);
-    void tesselate_down(model *mdl, model& high_model);
+    void tesselate_up(model* mdl);
+    void tesselate_down(model *mdl);
     void correct(Point3D &p1, Point3D &p2, Point3D &p3, model &high_model, int begin);
     float distance(Point3D p1, Point3D p2);
 
