@@ -33,8 +33,6 @@ void tesselator::tesselate_up(model *mdl)
     Point3D p1,p2,p3;
     Polygon tmp, fill;
     int i = 0;
-    qDebug() << tmp_model.polygons.size();
-    qDebug() << high_model.polygons.size();
     int gran = tmp_model.polygons.size()*256/high_model.polygons.size();  // учесть № грани!
     while (!tmp_model.polygons.empty())
     {
@@ -87,7 +85,7 @@ void tesselator::correct(Point3D &p1, Point3D &p2, Point3D &p3, model &high_mode
 {
     int size = begin+256;
     float tmp;
-    float eps = 0.005;
+    float eps = 0.05;
     QVector<Point3D> pnts;
     pnts.push_back(p1);
     pnts.push_back(p2);
@@ -113,6 +111,9 @@ void tesselator::correct(Point3D &p1, Point3D &p2, Point3D &p3, model &high_mode
         if(point)
             *it = high_model.polygons[pos][point-1];
     }
+    p1 = pnts[0];
+    p2 = pnts[1];
+    p3 = pnts[2];
 }
 
 float tesselator::distance(Point3D p1, Point3D p2)
