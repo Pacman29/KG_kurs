@@ -16,31 +16,28 @@ private:
     Polygon get_polygon(FILE*& f);
     Polygon get_polygon(FILE*& f, QColor clr);
     Point3D get_point(FILE*& f);
-    QColor get_color(FILE*& f);
-    
+    QColor get_color(FILE*& f);  
 };
 
-class file_loaderImpl_QFile : public base_loaderImpl
+class file_loaderImpl_Qbjfile : public base_loaderImpl
 {
 public:
-    file_loaderImpl_QFile(): fin(NULL){}
     bool Load(base_model &Unit, const char *Name);
     bool Load(base_model &Unit, const char *Name, QColor clr);
 private:
-    QFile* fin;
-    void _Open_QFile(const char *Name);
-    void _Close_QFile(void);
-    Polygon get_polygon(void);
-    Polygon get_polygon(QColor clr);
-    Point3D get_point(void);
-    QColor get_color(void);
+    QStringList file_data_list;
+    QFile* file;
+    void _Read_Data(base_model &Unit);
+    void _Open_File(const char *Name);
+    void _Close_File(void);
 };
 
 
 class file_loader : public base_loader
 {
 public:
-    file_loader() : base_loader(new file_loaderImpl){}
+    //file_loader() : base_loader(new file_loaderImpl){}
+    file_loader() : base_loader(new file_loaderImpl_Qbjfile){}
     bool Load(base_model &Unit, const char *Name)
     {
         return this->ldImpl->Load(Unit,Name);

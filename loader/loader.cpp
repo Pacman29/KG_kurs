@@ -99,65 +99,75 @@ QColor file_loaderImpl::get_color(FILE *&f)
 }
 
 
-bool file_loaderImpl_QFile::Load(base_model &Unit, const char *Name)
+bool file_loaderImpl_Qbjfile::Load(base_model &Unit, const char *Name)
 {
     try
     {
-        _Open_QFile(Name);
-        while(!this->stream->atEnd())
-            Unit.add_poligon(get_polygon());
+        this->_Open_File(Name);
+        this->_Read_Data(Unit);
         Unit.set_name(Name);
         Unit.init_centre();
-        _Close_QFile();
+        this->_Close_File();
     }
     catch(base_error&)
     {
-        _Close_QFile();
+        this->_Close_File();
         return false;
     }
     return true;
 }
 
-bool file_loaderImpl_QFile::Load(base_model &Unit, const char *Name, QColor clr)
+bool file_loaderImpl_Qbjfile::Load(base_model &Unit, const char *Name, QColor clr)
 {
     try
     {
-        _Open_File(tmp, Name);
-        while(!feof(tmp))
-            Unit.add_poligon(get_polygon(tmp,clr));
+        this->_Open_File(Name);
+        this->_Read_Data(Unit);
         Unit.set_name(Name);
         Unit.init_centre();
-        _Close_File(tmp);
+        Unit.set_color(clr);
+        this->_Close_File();
     }
-    catch(base_error& er)
+    catch(base_error&)
     {
-        _Close_File(tmp);
-        qDebug()<<er.what() ;
-        qDebug()<<Name;
+        this->_Close_File();
         return false;
     }
     return true;
 }
 
-void file_loaderImpl_QFile::_Open_QFile(const char *Name)
+void file_loaderImpl_Qbjfile::_Read_Data(base_model &Unit)
 {
-    this->fin = new QFile(QString(Name));
-    if(!this->fin->open(QFile::ReadOnly))
+    QVector<Point3D> pnts;
+    for(QStringList::iterator it = this->file_data_list.begin();
+            it != this->file_data_list.end(); ++it)
+    {
+        QTextStream tmp(&*it);
+        tmp.seek(1);
+        if((*it)[0] == 'v')
+        {
+            float x,y,z;
+            tmp >> x >> y >> z;
+            pnts.push_back(Point3D(x,y,z));
+        }
+        if((*it)[0] == 'f')
+        {
+            int x,y,z;
+            tmp >> x >> y >> z;
+            Unit.add_poligon(pnts[x-1],pnts[y-1],pnts[z-1]);
+        }
+    }
+}
+
+void file_loaderImpl_Qbjfile::_Open_File(const char *Name)
+{
+    this->file = new QFile(Name);
+    if(!this->file->open(QFile::ReadOnly))
         throw loader_error::open_error();
-    this->stream = new QTextStream(this->fin);
+    this->file_data_list = QString(this->file->readAll()).split("\n");
 }
 
-void file_loaderImpl_QFile::_Close_QFile()
+void file_loaderImpl_Qbjfile::_Close_File()
 {
-    delete this->stream;
-    delete this->fin;
-}
-
-Polygon file_loaderImpl_QFile::get_polygon(void)
-{
-    QVector<Point3D> vec;
-    for(size_t i=0; i!=3; ++i)
-        vec.push_back(this->get_point());
-    return Polygon(vec[0],vec[1],vec[2],this->get_color());
-
+    delete this->file;
 }

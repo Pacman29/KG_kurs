@@ -25,8 +25,8 @@ QVector3D Polygon::normal()
 
 double Polygon::get_max(Point3D::coord_type type)
 {
-    double max = points.first().get(type);
-    double tmp;
+    float max = points.first().get(type);
+    float tmp;
     for(QVector<Point3D>::iterator it = points.begin(); it != points.end(); ++it)
         if((tmp = (*it).get(type)) > max)
             max = tmp;
@@ -60,9 +60,9 @@ void Polygon::set_centre(float x, float y, float z)
 
 Point3D Polygon::get_middle_side(unsigned int vertex1, unsigned int vertex2)
 {
-    return Point3D( (points[vertex1].x()+points[vertex2].x()) / 2,
-                    (points[vertex1].y()+points[vertex2].y()) / 2,
-                    (points[vertex1].z()+points[vertex2].z()) / 2);
+    return Point3D( (points[vertex1].x()+points[vertex2].x()) / 2.,
+                    (points[vertex1].y()+points[vertex2].y()) / 2.,
+                    (points[vertex1].z()+points[vertex2].z()) / 2.);
 }
 
 void Polygon::set_vertexes(Point3D p1,Point3D p2,Point3D p3)
@@ -70,6 +70,7 @@ void Polygon::set_vertexes(Point3D p1,Point3D p2,Point3D p3)
     this->points[0]=p1;
     this->points[1]=p2;
     this->points[2]=p3;
+    this->_centre = this->__centre();
 }
 
 void Polygon::set_color(QColor clr)
@@ -90,7 +91,7 @@ void Polygon::set_color(qreal h, qreal s, qreal l)
 void Polygon::change_point(QMatrix4x4 ch_matrix)
 {
     for(QVector<Point3D>::iterator it = points.begin(); it != points.end(); ++it)
-        (*it) = (*it) * ch_matrix;
+        (*it) =  ch_matrix * (*it);
 }
 
 Point3D Polygon::operator[](size_t index)
@@ -100,9 +101,9 @@ Point3D Polygon::operator[](size_t index)
 
 Point3D Polygon::__centre()
 {
-    return Point3D((this->get_max(Point3D::X)+this->get_min(Point3D::X))/2,
-                   (this->get_max(Point3D::Y)+this->get_min(Point3D::Y))/2,
-                   (this->get_max(Point3D::Z)+this->get_min(Point3D::Z))/2);
+    return Point3D((this->get_max(Point3D::X)+this->get_min(Point3D::X))/2.,
+                   (this->get_max(Point3D::Y)+this->get_min(Point3D::Y))/2.,
+                   (this->get_max(Point3D::Z)+this->get_min(Point3D::Z))/2.);
 }
 
 bool compare_polygons(Polygon a, Polygon b)

@@ -6,7 +6,7 @@ void painterImpl::draw_ligth_source(QPixmap *pix, Light_source lgt)
     pntr.setBrush(QBrush(Qt::yellow));
     pntr.setPen(Qt::yellow);
     Point3D tmp = lgt.get_position();
-    pntr.drawEllipse(QPointF(tmp.x(),tmp.y()),2,2);
+    pntr.drawEllipse(QPointF(tmp.x()+pix->width()/2,tmp.y()+pix->height()/2),2,2);
 }
 
 void painterImpl::draw_polygon(QPixmap* pix,Polygon plg)
@@ -31,5 +31,16 @@ void painterImpl::draw_polygon(QPixmap* pix,Polygon plg)
 void painterImpl::clear_scene(QPixmap* pix)
 {
     pix->fill();
+}
+
+void painterImpl::draw_centre(QPixmap *pix, QVector3D centre)
+{
+    QPainter pntr(pix);
+    pntr.setPen(Qt::black);
+    pntr.setBrush(QBrush(Qt::red));
+    float x = centre.x()+pix->width()/2,
+          y = centre.y()+pix->height()/2;
+
+    pntr.drawEllipse(QPointF(x,y),3,3);
 }
 

@@ -25,6 +25,11 @@ public:
         return this->polygons.size();
     }
 
+    QVector3D get_centre()
+    {
+        return this->_centre;
+    }
+
     const char* type_object()
     {
         return "model";
@@ -32,6 +37,7 @@ public:
 
     model get_high_model(void);
     void set_high_model(model &md);
+
 
     void move(float posX = 0, float posY = 0, float posZ = 0);
     void rotate(float angle, float X,float Y ,float Z);
@@ -45,6 +51,7 @@ public:
 
     bool isEmpty() override final;
 
+    void set_color(QColor clr) override final;
 
     QVector<Polygon>::const_iterator begin()
     {
@@ -62,7 +69,6 @@ public:
 
     friend class tesselator;
 private:
-    QVector<Polygon> polygons;
     QVector3D _centre;
     int k_tes;
     model* high_model;

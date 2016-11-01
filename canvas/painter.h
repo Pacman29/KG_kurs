@@ -9,6 +9,7 @@ public:
     void draw_ligth_source(QPixmap* pix, Light_source lgt) override;
     void draw_polygon(QPixmap* pix,Polygon plg) override;
     void clear_scene(QPixmap* pix) override;
+    void draw_centre(QPixmap* pix,QVector3D centre) override;
 private:
 };
 
@@ -29,6 +30,10 @@ public:
     void clear_scene() override
     {
         this->pntrImpl->clear_scene(_pix);
+    }
+    void draw_centre(QVector3D centre) override
+    {
+        this->pntrImpl->draw_centre(_pix,centre);
     }
 private:
     QPixmap* _pix;

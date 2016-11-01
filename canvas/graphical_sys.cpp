@@ -49,7 +49,18 @@ void Graphical_sysImpl::Draw_scene(base_painter *pntr,composit_object& composit,
             it->set_color(h,s,l);
         }
         pntr->draw_polygon(*it);
-    }       
+    }
+ ///////////////////   // debug centre
+//    for(composit_object::iterator it = composit.begin(); it != composit.end(); ++it)
+//    {
+//        const char* type_obj = ((base_obj*)*it)->type_object();
+//        if( !strcmp(type_obj,"model") )
+//        {
+//            model* tmp_model = (model*)*it;
+//            pntr->draw_centre(tmp_model->get_centre());
+//        }
+//    }
+ ////////////////////////
 }
 
 void Graphical_sysImpl::clear_scene(base_painter *pntr)

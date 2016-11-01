@@ -25,7 +25,7 @@ void model::init_centre()
 {
     float max_x,max_y,max_z,
             min_x,min_y,min_z;
-    max_x = max_y = max_z = std::numeric_limits<float>::min();
+    max_x = max_y = max_z = -std::numeric_limits<float>::max();
     min_x = min_y = min_z = std::numeric_limits<float>::max();
 
     float tmp;
@@ -46,9 +46,9 @@ void model::init_centre()
             min_z = tmp;
     }
 
-    this->_centre.setX((max_x+min_x)/2);
-    this->_centre.setY((max_y+min_y)/2);
-    this->_centre.setZ((max_z+min_z)/2);
+    this->_centre.setX((max_x+min_x)/2.);
+    this->_centre.setY((max_y+min_y)/2.);
+    this->_centre.setZ((max_z+min_z)/2.);
 }
 
 void model::set_centre(Point3D centre)
@@ -76,36 +76,55 @@ void model::set_high_model(model &md)
 void model::move(float posX, float posY, float posZ)
 {
     QMatrix4x4 tmp;
-    tmp.translate(-this->_centre);
-    tmp.translate(posX,posY,posZ);
     tmp.translate(this->_centre);
+    tmp.translate(posX,posY,posZ);
+    tmp.translate(-this->_centre);
 
     for(QVector<Polygon>::iterator it = polygons.begin(); it != polygons.end(); ++it)
         it->change_point(tmp);
 
-    this->_centre = this->_centre * tmp;
+    this->_centre = tmp * this->_centre;
 }
 
 void model::rotate(float angle, float X, float Y, float Z)
 {
     QMatrix4x4 tmp;
-    tmp.translate(-this->_centre);
-    tmp.rotate(angle,X,Y,Z);
     tmp.translate(this->_centre);
+    tmp.rotate(angle,X,Y,Z);
+    tmp.translate(-this->_centre);
 
     for(QVector<Polygon>::iterator it = polygons.begin(); it != polygons.end(); ++it)
         it->change_point(tmp);
+/*
+ *     QMatrix4x4 tmp1;
+    QMatrix4x4 tmp2;
+    QMatrix4x4 tmp3;
+    tmp1.translate(-this->_centre);
+    for(QVector<Polygon>::iterator it = polygons.begin(); it != polygons.end(); ++it)
+        it->change_point(tmp1);
+    //tmp.fill(1);
+    tmp2.rotate(angle,X,Y,Z);
+
+    for(QVector<Polygon>::iterator it = polygons.begin(); it != polygons.end(); ++it)
+        it->change_point(tmp2);
+    //tmp.fill(1);
+    tmp3.translate(this->_centre);
+
+    for(QVector<Polygon>::iterator it = polygons.begin(); it != polygons.end(); ++it)
+        it->change_point(tmp3);
+ */
 }
 
 void model::scale(float factor)
 {
     QMatrix4x4 tmp;
-    tmp.translate(-this->_centre);
-    tmp.scale(factor);
     tmp.translate(this->_centre);
+    tmp.scale(factor);
+    tmp.translate(-this->_centre);
 
     for(QVector<Polygon>::iterator it = polygons.begin(); it != polygons.end(); ++it)
         it->change_point(tmp);
+    this->_centre = tmp * this->_centre;
 }
 
 int model::get_k_ts()
@@ -131,5 +150,11 @@ void model::quick_sort()
 bool model::isEmpty()
 {
     return polygons.isEmpty();
+}
+
+void model::set_color(QColor clr)
+{
+    for(QVector<Polygon>::iterator it = polygons.begin(); it != polygons.end(); ++it)
+        it->set_color(clr);
 }
 
