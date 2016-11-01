@@ -73,4 +73,8 @@ DISTFILES += \
     Models/high_cube.txt \
     Models/high_sphere.txt \
     Models/low_cube.txt \
-    Models/low_sphere.txt
+    Models/low_sphere.txt \
+    Models/auto.obj \
+    Models/dodgechallenger.obj \
+    Models/sphere.obj \
+    Models/test.obj
