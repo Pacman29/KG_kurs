@@ -107,6 +107,7 @@ bool file_loaderImpl_Qbjfile::Load(base_model &Unit, const char *Name)
         this->_Read_Data(Unit);
         Unit.set_name(Name);
         Unit.init_centre();
+        Unit.set_low_size();
         this->_Close_File();
     }
     catch(base_error&)
@@ -126,6 +127,7 @@ bool file_loaderImpl_Qbjfile::Load(base_model &Unit, const char *Name, QColor cl
         Unit.set_name(Name);
         Unit.init_centre();
         Unit.set_color(clr);
+        Unit.set_low_size();
         this->_Close_File();
     }
     catch(base_error&)

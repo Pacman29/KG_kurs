@@ -90,11 +90,12 @@ void Polygon::set_color(qreal h, qreal s, qreal l)
 
 void Polygon::change_point(QMatrix4x4 ch_matrix)
 {
-    for(QVector<Point3D>::iterator it = points.begin(); it != points.end(); ++it)
+    #pragma omp parallel for
+    for(QVector<Point3D>::iterator it = points.begin(); it < points.end(); ++it)
         (*it) =  ch_matrix * (*it);
 }
 
-Point3D Polygon::operator[](size_t index)
+Point3D& Polygon::operator[](size_t index)
 {
     return this->points[index];
 }

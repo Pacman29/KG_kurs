@@ -27,6 +27,10 @@ public:
 private slots:
     void anim();
 
+    void on_btn_up_clicked();
+
+    void on_btn_down_clicked();
+
 private:
     camera cam;
     size_t i;

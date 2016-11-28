@@ -65,7 +65,8 @@ HEADERS  += mainwindow.h \
     Point3D/point3d.h \
     Tesselator/tesselator.h \
     Visible_obj/visible_obj.h \
-    Visible_trans/visible_trans.h
+    Visible_trans/visible_trans.h \
+    quick_sort.h
 
 FORMS    += mainwindow.ui
 
@@ -77,4 +78,9 @@ DISTFILES += \
     Models/auto.obj \
     Models/dodgechallenger.obj \
     Models/sphere.obj \
-    Models/test.obj
+    Models/test.obj \
+    Models/Ford.obj
+
+    QMAKE_LIBS+=-static -lgomp -lpthread
+    QMAKE_CXXFLAGS+=-fopenmp -D_GLIBCXX_PARALLEL
+    QMAKE_LFLAGS += -fopenmp

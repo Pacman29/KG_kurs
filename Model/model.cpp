@@ -3,11 +3,13 @@
 model::model()
 {
     this->k_tes = 0;
+    this->high_model = NULL;
 }
 
 model::~model()
 {
     this->polygons.clear();
+    delete this->high_model;
 }
 
 void model::add_poligon(Point3D p1, Point3D p2, Point3D p3, QColor color)
@@ -63,6 +65,28 @@ void model::set_centre(float x, float y, float z)
     this->_centre.setZ(z);
 }
 
+//void model::sort()
+//{
+//    QStack<Polygon> stack;
+//    QVector<Polygon> read = this->polygons;
+//    QVector<Polygon> sorted(this->polygons.size());
+//    stack.push(*(read.begin()));
+//    read.erase(read.begin());
+//    while(!stack.isEmpty())
+//    {
+//        sorted.push_back(stack.pop());
+//        Point3D p1 = sorted.last()[0],
+//                p2 = sorted.last()[1],
+//                p3 = sorted.last()[2];
+//        Polygon tmp2,tmp3,tmp4;
+//        for(QVector::iterator it = read.begin(); it != read.end(); ++it)
+//        {
+//            if()
+//        }
+
+//    }
+//}
+
 model model::get_high_model()
 {
     return *(this->high_model);
@@ -80,8 +104,12 @@ void model::move(float posX, float posY, float posZ)
     tmp.translate(posX,posY,posZ);
     tmp.translate(-this->_centre);
 
-    for(QVector<Polygon>::iterator it = polygons.begin(); it != polygons.end(); ++it)
+    #pragma omp parallel for
+    for(QVector<Polygon>::iterator it = polygons.begin(); it < polygons.end(); ++it)
         it->change_point(tmp);
+    #pragma omp barrier
+    if(this->high_model)
+        this->high_model->move(posX,posY,posZ);
 
     this->_centre = tmp * this->_centre;
 }
@@ -93,26 +121,12 @@ void model::rotate(float angle, float X, float Y, float Z)
     tmp.rotate(angle,X,Y,Z);
     tmp.translate(-this->_centre);
 
-    for(QVector<Polygon>::iterator it = polygons.begin(); it != polygons.end(); ++it)
+    #pragma omp parallel for
+    for(QVector<Polygon>::iterator it = polygons.begin(); it < polygons.end(); ++it)
         it->change_point(tmp);
-/*
- *     QMatrix4x4 tmp1;
-    QMatrix4x4 tmp2;
-    QMatrix4x4 tmp3;
-    tmp1.translate(-this->_centre);
-    for(QVector<Polygon>::iterator it = polygons.begin(); it != polygons.end(); ++it)
-        it->change_point(tmp1);
-    //tmp.fill(1);
-    tmp2.rotate(angle,X,Y,Z);
-
-    for(QVector<Polygon>::iterator it = polygons.begin(); it != polygons.end(); ++it)
-        it->change_point(tmp2);
-    //tmp.fill(1);
-    tmp3.translate(this->_centre);
-
-    for(QVector<Polygon>::iterator it = polygons.begin(); it != polygons.end(); ++it)
-        it->change_point(tmp3);
- */
+    #pragma omp barrier
+    if(this->high_model)
+        this->high_model->rotate(angle,X,Y,Z);
 }
 
 void model::scale(float factor)
@@ -122,8 +136,12 @@ void model::scale(float factor)
     tmp.scale(factor);
     tmp.translate(-this->_centre);
 
-    for(QVector<Polygon>::iterator it = polygons.begin(); it != polygons.end(); ++it)
+    #pragma omp parallel for
+    for(QVector<Polygon>::iterator it = polygons.begin(); it < polygons.end(); ++it)
         it->change_point(tmp);
+    #pragma omp barrier
+    if(this->high_model)
+        this->high_model->scale(factor);
     this->_centre = tmp * this->_centre;
 }
 

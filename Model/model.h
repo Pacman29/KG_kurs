@@ -6,7 +6,9 @@
 #include "polygon.h"
 #include "Base_transform/base_transform.h"
 #include <QMatrix4x4>
+#include <QStack>
 #include "Tesselator/tesselator.h"
+#include "loader/loader.h"
 
 class model : public visible_obj, public base_model
 {
@@ -20,6 +22,7 @@ public:
     void set_centre(Point3D centre);
     void set_centre(float x,float y,float z);
 
+//    void sort() override final;
     int get_size()
     {
         return this->polygons.size();
@@ -68,6 +71,7 @@ public:
     }
 
     friend class tesselator;
+    friend class file_loaderImpl_Qbjfile;
 private:
     QVector3D _centre;
     int k_tes;

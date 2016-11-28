@@ -43,10 +43,39 @@ public:
     void set_color(qreal h, qreal s, qreal l);
     QColor get_color();
 
+    bool operator <(const Polygon value) const
+    {
+        return ( (points[0].z() + points[1].z() + points[2].z()) < (value.points[0].z() + value.points[1].z() + value.points[2].z()));
+    }
+
+    bool operator == (const Polygon value) const
+    {
+        return ( (points[0].z() + points[1].z() + points[2].z()) == (value.points[0].z() + value.points[1].z() + value.points[2].z()));
+    }
+
+    bool operator > (const Polygon value) const
+    {
+        return ( (points[0].z() + points[1].z() + points[2].z()) > (value.points[0].z() + value.points[1].z() + value.points[2].z()));
+    }
+
+    bool operator != (const Polygon value) const
+    {
+        return ( (points[0].z() + points[1].z() + points[2].z()) != (value.points[0].z() + value.points[1].z() + value.points[2].z()));
+    }
+
+    bool operator >= (const Polygon value) const
+    {
+        return ( (points[0].z() + points[1].z() + points[2].z()) >= (value.points[0].z() + value.points[1].z() + value.points[2].z()));
+    }
+
+    bool operator <= (const Polygon value) const
+    {
+        return ( (points[0].z() + points[1].z() + points[2].z()) == (value.points[0].z() + value.points[1].z() + value.points[2].z()));
+    }
 
     void change_point(QMatrix4x4 ch_matrix);
 
-    Point3D operator[] (size_t index);
+    Point3D& operator[] (size_t index);
 private:
     Point3D __centre();
     QVector<Point3D> points;

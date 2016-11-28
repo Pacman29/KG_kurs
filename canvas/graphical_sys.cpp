@@ -2,6 +2,11 @@
 #include "Model/model.h"
 #include <typeinfo>
 #include <iostream>
+#include <omp.h>
+#include <parallel/algorithm>
+//#include <quick_sort.h>
+
+#include <QMessageBox>
 void Graphical_sysImpl::Draw_scene(base_painter *pntr,composit_object& composit, base_camera& cam)
 {
     //throw graphic_sys_error::model_empty();
@@ -10,7 +15,8 @@ void Graphical_sysImpl::Draw_scene(base_painter *pntr,composit_object& composit,
     QVector<Polygon> polygons;
     QMatrix4x4 camMatrix = cam.GetViewMatrix();
 
-    for(composit_object::iterator it = composit.begin(); it != composit.end(); ++it)
+    #pragma omp parallel for
+    for(composit_object::iterator it = composit.begin(); it < composit.end(); ++it)
     {
         const char* type_obj = ((base_obj*)*it)->type_object();
         if( !strcmp(type_obj,"model") )
@@ -28,14 +34,22 @@ void Graphical_sysImpl::Draw_scene(base_painter *pntr,composit_object& composit,
                 lights.push_back(*((Light_source*)it));
     }
 
-    qSort(polygons.begin(),polygons.end(),compare_polygons);
-    for(QVector<Polygon>::iterator it = polygons.begin(); it!= polygons.end(); ++it )
+    //qSort(polygons);
+    __gnu_parallel::sort(polygons.begin(),polygons.end());
+
+    for(int i = 0; i<polygons.size()-1; ++i)
+        if(polygons[i] > polygons[i+1])
+            qDebug()<<"ERROR";
+
+    for(QVector<Polygon>::iterator it = polygons.begin(); it < polygons.end(); ++it )
     {
         QVector3D tmp = it->normal();
         if(lights.size())
         {
             float cos_tetha = 0;
-            for(QVector<Light_source>::iterator it_ligth = lights.begin(); it_ligth != lights.end(); ++it_ligth )
+
+            #pragma omp parallel for
+            for(QVector<Light_source>::iterator it_ligth = lights.begin(); it_ligth < lights.end(); ++it_ligth )
             {
                 QVector3D pos_ligth = it_ligth->get_position();
                 QVector3D tmp_ligth_vector(tmp.x()-pos_ligth.x(),tmp.y()-pos_ligth.y(),tmp.z()-pos_ligth.z());

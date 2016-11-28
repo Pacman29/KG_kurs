@@ -14,8 +14,8 @@ MainWindow::MainWindow(QWidget *parent) :
     model* h_md = new model;
     //fl.Load(*md,"C:/KG_Kurs/Models/low_sphere.txt",Qt::green);
     //fl.Load(*h_md,"C:/KG_Kurs/Models/high_sphere.txt",Qt::green);
-    fl.Load(*md,"C:/KG_Kurs/Models/test.obj",Qt::green);
-    fl.Load(*h_md,"C:/KG_Kurs/Models/test.obj",Qt::green);
+    fl.Load(*md,"C:/KG_Kurs/Models/tor_low.obj",Qt::green);
+    fl.Load(*h_md,"C:/KG_Kurs/Models/tor_high.obj",Qt::green);
     //fl.Load(*md,"/home/pacman29/Qt_proj/KG_kurs/KG_kurs/Models/low_cube.txt",Qt::green);
     //fl.Load(*h_md,"/home/pacman29/Qt_proj/KG_kurs/KG_kurs/Models/high_cube.txt",Qt::green);
 
@@ -32,16 +32,18 @@ void MainWindow::_show()
     gr.set_scene(*this->pntr);
     model* tmp_model =( model*)cobj[0];
     //tmp_model->scale(0.5);
+    ts.tesselate(tesselator::UP,tmp_model);
 //    ts.tesselate(tesselator::UP,tmp_model);
-//    ts.tesselate(tesselator::UP,tmp_model);
+//    ts.tesselate(tesselator::DOWN,tmp_model);
+//    ts.tesselate(tesselator::DOWN,tmp_model);
 //    ts.tesselate(tesselator::DOWN,tmp_model);
 //    ts.tesselate(tesselator::UP,tmp_model);
 //    ts.tesselate(tesselator::UP,tmp_model);
 //    ts.tesselate(tesselator::UP,tmp_model,tmp_model->get_high_model());
-//    tmp_model->scale(1);
-    tmp_model->rotate(180,1,0,0);
-    QTimer::singleShot(1,this,SLOT(anim()));
-
+   tmp_model->scale(0.05);
+   tmp_model->move(-400,0);
+//    tmp_model->rotate(180,0,0,1);
+   anim();
 }
 
 MainWindow::~MainWindow()
@@ -54,13 +56,29 @@ MainWindow::~MainWindow()
 void MainWindow::anim()
 {
     model* tmp_model =( model*)cobj[0];
-    tmp_model->rotate(0.3,0,1,0);
+    tmp_model->rotate(0.3,1,1,1);
     gr.Draw_scene(this->cobj,cam);
     ui->label->setPixmap(*pix);
     this->pix->fill();
-    QTimer::singleShot(20,this,SLOT(anim()));
+    QTimer::singleShot(10,this,SLOT(anim()));
 }
 
 
 
 
+
+void MainWindow::on_btn_up_clicked()
+{
+    model* tmp_model =( model*)cobj[0];
+    //tmp_model->scale(0.5);
+    ts.tesselate(tesselator::UP,tmp_model);
+    anim();
+}
+
+void MainWindow::on_btn_down_clicked()
+{
+    model* tmp_model =( model*)cobj[0];
+    //tmp_model->scale(0.5);
+    ts.tesselate(tesselator::DOWN,tmp_model);
+    anim();
+}
