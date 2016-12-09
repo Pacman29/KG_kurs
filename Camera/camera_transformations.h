@@ -3,7 +3,8 @@
 #include "base_camera_transformations.h"
 #include "camera.h"
 #include "cmath"
-namespace camera_transformations
+
+namespace camera_transform
 {
 class yaw : public base_camera_transformations
 {
@@ -17,7 +18,7 @@ public:
     {
         _camera->yaw(this->_angle);
     }
-    const char* type_transform() override final
+    QString type_transform() override final
     {
         return "camera_transform";
     }
@@ -37,7 +38,7 @@ public:
     {
         _camera->pitch(this->_angle);
     }
-    const char* type_transform() override final
+    QString type_transform() override final
     {
         return "camera_transform";
     }
@@ -57,7 +58,7 @@ public:
     {
         _camera->roll(this->_angle);
     }
-    const char* type_transform() override final
+    QString type_transform() override final
     {
         return "camera_transform";
     }
@@ -77,7 +78,7 @@ public:
     {
         _camera->set_position(this->_pos);
     }
-    const char* type_transform() override final
+    QString type_transform() override final
     {
         return "camera_transform";
     }
@@ -97,7 +98,7 @@ public:
     {
         _camera->set_target(this->_target);
     }
-    const char* type_transform() override final
+    QString type_transform() override final
     {
         return "camera_transform";
     }

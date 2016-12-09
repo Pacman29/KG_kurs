@@ -6,7 +6,7 @@
 class base_obj
 {
 public:
-    virtual const char* type_object() {return NULL;}
+    virtual QString type_object() {return NULL;}
     virtual void execute(base_transform *transform) = 0;
     virtual bool add(base_obj *)
     {

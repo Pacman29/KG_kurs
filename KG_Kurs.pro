@@ -30,7 +30,10 @@ SOURCES += main.cpp\
     Point3D/point3d.cpp \
     Tesselator/tesselator.cpp \
     Visible_obj/visible_obj.cpp \
-    Visible_trans/visible_trans.cpp
+    Visible_trans/visible_trans.cpp \
+    Managers/manager.cpp \
+    Tesselator/base_tesselator.cpp \
+    dialog_load_data.cpp
 
 HEADERS  += mainwindow.h \
     base_error/base_error.h \
@@ -66,9 +69,12 @@ HEADERS  += mainwindow.h \
     Tesselator/tesselator.h \
     Visible_obj/visible_obj.h \
     Visible_trans/visible_trans.h \
-    quick_sort.h
+    Managers/manager.h \
+    Tesselator/base_tesselator.h \
+    dialog_load_data.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    dialog_load_data.ui
 
 DISTFILES += \
     Models/high_cube.txt \
@@ -79,8 +85,15 @@ DISTFILES += \
     Models/dodgechallenger.obj \
     Models/sphere.obj \
     Models/test.obj \
-    Models/Ford.obj
+    Models/Ford.obj \
+    Models/1500.obj \
+    Models/test_low_ford.obj \
+    Models/test2_high.obj \
+    Models/test2_low.obj \
+    Models/tor_high.obj \
+    Models/tor_low.obj
 
-    QMAKE_LIBS+=-static -lgomp -lpthread
+    #QMAKE_LIBS+=-static -lgomp -lpthread
     QMAKE_CXXFLAGS+=-fopenmp -D_GLIBCXX_PARALLEL
-    QMAKE_LFLAGS += -fopenmp
+    LIBS += -fopenmp
+    #QMAKE_CXXFLAGS += -O2

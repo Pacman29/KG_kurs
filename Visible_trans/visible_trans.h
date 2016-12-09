@@ -6,7 +6,7 @@ class Visible_trans : public base_transform
 {
 public:
     virtual ~Visible_trans(){}
-    virtual const char* type_transform()
+    virtual QString type_transform()
     {
         return "visible_transform";
     }

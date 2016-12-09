@@ -40,7 +40,14 @@ Point3D Point3D::operator-(const Point3D &other)
 {
     return Point3D(this->x() - other.x(),
                 this->y() - other.y(),
-                this->z() - other.z());
+                   this->z() - other.z());
+}
+
+void Point3D::inc(float x, float y, float z)
+{
+    this->operator [](0) += x;
+    this->operator [](1) += y;
+    this->operator [](2) += z;
 }
 
 

@@ -5,7 +5,7 @@
 class invisible_obj : public base_obj
 {
 public:
-    virtual const char* type_object()
+    virtual QString type_object()
     {
         return "invisible_obj";
     }

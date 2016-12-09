@@ -6,79 +6,43 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    connect(&this->DirWind,SIGNAL(dialog_choosed(QString,QString,QColor)),this,SLOT(load_files(QString,QString,QColor)));
+    connect(&this->DirWind,SIGNAL(dialog_closed()),this,SLOT(dir_signal_close()));
     ui->setupUi(this);
-    this->pix = new QPixmap(ui->label->width(),ui->label->height());
+    this->pix = new QPixmap(ui->Canvas->width(),ui->Canvas->height());
     pix->fill();
-    ui->label->setPixmap(*pix);
-    model* md = new model;
-    model* h_md = new model;
-    //fl.Load(*md,"C:/KG_Kurs/Models/low_sphere.txt",Qt::green);
-    //fl.Load(*h_md,"C:/KG_Kurs/Models/high_sphere.txt",Qt::green);
-    fl.Load(*md,"C:/KG_Kurs/Models/tor_low.obj",Qt::green);
-    fl.Load(*h_md,"C:/KG_Kurs/Models/tor_high.obj",Qt::green);
-    //fl.Load(*md,"/home/pacman29/Qt_proj/KG_kurs/KG_kurs/Models/low_cube.txt",Qt::green);
-    //fl.Load(*h_md,"/home/pacman29/Qt_proj/KG_kurs/KG_kurs/Models/high_cube.txt",Qt::green);
-
-    md->set_high_model(*h_md);
-    cobj.add(md);
-            //need model with highmodel and nowmodel
-}
-
-void MainWindow::_show()
-{
-    this->show();
-
-    this->pntr = new painter(pix);
-    gr.set_scene(*this->pntr);
-    model* tmp_model =( model*)cobj[0];
-    //tmp_model->scale(0.5);
-    ts.tesselate(tesselator::UP,tmp_model);
-//    ts.tesselate(tesselator::UP,tmp_model);
-//    ts.tesselate(tesselator::DOWN,tmp_model);
-//    ts.tesselate(tesselator::DOWN,tmp_model);
-//    ts.tesselate(tesselator::DOWN,tmp_model);
-//    ts.tesselate(tesselator::UP,tmp_model);
-//    ts.tesselate(tesselator::UP,tmp_model);
-//    ts.tesselate(tesselator::UP,tmp_model,tmp_model->get_high_model());
-   tmp_model->scale(0.05);
-   tmp_model->move(-400,0);
-//    tmp_model->rotate(180,0,0,1);
-   anim();
+    ui->Canvas->setPixmap(*pix);
+    this->Mgr = new Manager(this,new file_loader,new Graphical_sys,new painter(this->pix),new tesselator);
+    this->Mgr->add_camera();
+    this->Mgr->load_model("C:/KG_Kurs/Models/tor_low.obj","C:/KG_Kurs/Models/tor_high.obj",Qt::blue);
+    this->Mgr->scale_model(1,0.0125);
+    this->Mgr->rotate_model(1,60,1,1,1);
+    this->Mgr->move_model(1,-250);
+    this->Mgr->cam_inc_range(0,1000);
+    this->Mgr->draw_scene(0,1);
+    ui->Canvas->setPixmap(*this->pix);
 }
 
 MainWindow::~MainWindow()
 {
-    delete this->pntr;
-    delete this->pix;
     delete ui;
 }
 
-void MainWindow::anim()
+void MainWindow::load_files(QString low, QString high,QColor clr)
 {
-    model* tmp_model =( model*)cobj[0];
-    tmp_model->rotate(0.3,1,1,1);
-    gr.Draw_scene(this->cobj,cam);
-    ui->label->setPixmap(*pix);
-    this->pix->fill();
-    QTimer::singleShot(10,this,SLOT(anim()));
+    this->Mgr->load_model(low,high,clr);
+    this->Mgr->draw_scene(0,2);
+    ui->Canvas->setPixmap(*this->pix);
+    this->setEnabled(true);
 }
 
-
-
-
-
-void MainWindow::on_btn_up_clicked()
+void MainWindow::dir_signal_close()
 {
-    model* tmp_model =( model*)cobj[0];
-    //tmp_model->scale(0.5);
-    ts.tesselate(tesselator::UP,tmp_model);
-    anim();
+    this->setEnabled(true);
 }
 
-void MainWindow::on_btn_down_clicked()
+void MainWindow::on_action_triggered()
 {
-    model* tmp_model =( model*)cobj[0];
-    //tmp_model->scale(0.5);
-    ts.tesselate(tesselator::DOWN,tmp_model);
-    anim();
+    this->setEnabled(false);
+    this->DirWind.show();
 }

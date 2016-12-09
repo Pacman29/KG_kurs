@@ -6,7 +6,7 @@ class base_light_source_trans : public Invisible_trans
 {
 public:
     virtual void execute(Light_source* _light_source) = 0;
-    virtual const char* type_transform()
+    virtual QString type_transform()
     {
         return "base_light_source_transform";
     }

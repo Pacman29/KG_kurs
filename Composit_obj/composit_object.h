@@ -24,14 +24,16 @@ public:
     }
     void execute(base_transform *transform)
     {
-        for(QVector<base_obj*>::iterator it = objects.begin(); it != objects.end(); ++it)
+        #pragma omp parallel for
+        for(QVector<base_obj*>::iterator it = objects.begin(); it < objects.end(); ++it)
             (*it)->execute(transform);
+        #pragma omp barrier
     }
     base_obj* operator[](size_t i)
     {
         return objects[i];
     }
-    const char* type_object()
+    QString type_object()
     {
         return "composit object";
     }

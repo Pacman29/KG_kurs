@@ -4,12 +4,18 @@ model::model()
 {
     this->k_tes = 0;
     this->high_model = NULL;
+    this->_scale = 1;
+    this->_pos = Point3D();
+    this->_coord_rotate = Point3D();
+    this->_rotate = 0;
+
 }
 
 model::~model()
 {
     this->polygons.clear();
-    delete this->high_model;
+    if(this->high_model)
+        delete this->high_model;
 }
 
 void model::add_poligon(Point3D p1, Point3D p2, Point3D p3, QColor color)
@@ -65,6 +71,7 @@ void model::set_centre(float x, float y, float z)
     this->_centre.setZ(z);
 }
 
+
 //void model::sort()
 //{
 //    QStack<Polygon> stack;
@@ -95,10 +102,13 @@ model model::get_high_model()
 void model::set_high_model(model &md)
 {
     this->high_model = &md;
+    this->_centre = this->high_model->_centre;
 }
 
 void model::move(float posX, float posY, float posZ)
 {
+    this->_pos.inc(posX,posY,posZ);
+
     QMatrix4x4 tmp;
     tmp.translate(this->_centre);
     tmp.translate(posX,posY,posZ);
@@ -108,14 +118,36 @@ void model::move(float posX, float posY, float posZ)
     for(QVector<Polygon>::iterator it = polygons.begin(); it < polygons.end(); ++it)
         it->change_point(tmp);
     #pragma omp barrier
-    if(this->high_model)
-        this->high_model->move(posX,posY,posZ);
 
     this->_centre = tmp * this->_centre;
+
+    if(this->high_model)
+        this->high_model->move(posX,posY,posZ);
+}
+
+void model::move_to_position(float posX, float posY, float posZ)
+{
+    QMatrix4x4 tmp;
+    tmp.translate(-this->_centre);
+    tmp.translate(posX,posY,posZ);
+
+    #pragma omp parallel for
+    for(QVector<Polygon>::iterator it = polygons.begin(); it < polygons.end(); ++it)
+        it->change_point(tmp);
+    #pragma omp barrier
+
+    this->_centre = tmp * this->_centre;
+
+    if(this->high_model)
+        this->high_model->move_to_position(posX,posY,posZ);
 }
 
 void model::rotate(float angle, float X, float Y, float Z)
 {
+
+    this->_rotate += angle;
+    this->_coord_rotate = Point3D(X,Y,Z);
+
     QMatrix4x4 tmp;
     tmp.translate(this->_centre);
     tmp.rotate(angle,X,Y,Z);
@@ -131,6 +163,7 @@ void model::rotate(float angle, float X, float Y, float Z)
 
 void model::scale(float factor)
 {
+    this->_scale *= factor;
     QMatrix4x4 tmp;
     tmp.translate(this->_centre);
     tmp.scale(factor);
@@ -140,9 +173,9 @@ void model::scale(float factor)
     for(QVector<Polygon>::iterator it = polygons.begin(); it < polygons.end(); ++it)
         it->change_point(tmp);
     #pragma omp barrier
+    this->_centre = tmp * this->_centre;
     if(this->high_model)
         this->high_model->scale(factor);
-    this->_centre = tmp * this->_centre;
 }
 
 int model::get_k_ts()

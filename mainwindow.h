@@ -2,15 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <dialog_load_data.h>
 #include <QPixmap>
-
-#include "Composit_obj/composit_object.h"
-#include "loader/loader.h"
-#include "Model/model.h"
-#include "canvas/graphical_sys.h"
-#include "Camera/camera.h"
-#include "canvas/painter.h"
-#include "Tesselator/tesselator.h"
+#include <Managers/manager.h>
 
 namespace Ui {
 class MainWindow;
@@ -25,22 +19,19 @@ public:
     void _show();
     ~MainWindow();
 private slots:
-    void anim();
 
-    void on_btn_up_clicked();
+    void load_files(QString low, QString high, QColor clr);
 
-    void on_btn_down_clicked();
+    void dir_signal_close();
+    
+    void on_action_triggered();
 
 private:
-    camera cam;
-    size_t i;
-    QPixmap* pix;
-    tesselator ts;
-    painter* pntr;
-    file_loader fl;
-    composit_object cobj;
-    Graphical_sys gr;
+    Manager *Mgr;
+    QPixmap *pix;
     Ui::MainWindow *ui;
+    Dialog_load_data DirWind;
+    
 };
 
 #endif // MAINWINDOW_H

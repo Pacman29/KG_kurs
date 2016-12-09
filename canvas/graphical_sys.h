@@ -8,6 +8,7 @@ class Graphical_sysImpl : public base_Graphical_sys_Impl
 {
 public:
     void Draw_scene(base_painter *pntr,composit_object& composit, base_camera& cam) override;
+    void Draw_scene(base_painter *pntr, base_model *obj, base_camera& cam) override;
     void clear_scene(base_painter* pntr) override;
 };
 
@@ -18,6 +19,10 @@ public:
     void Draw_scene(composit_object& composit, base_camera& cam) override
     {
         this->GrImpl->Draw_scene(this->_painter,composit,cam);
+    }
+    void Draw_scene(base_model* obj, base_camera& cam) override
+    {
+        this->GrImpl->Draw_scene(this->_painter,obj,cam);
     }
     void clear_scene() override
     {

@@ -45,38 +45,41 @@ public:
 
     bool operator <(const Polygon value) const
     {
-        return ( (points[0].z() + points[1].z() + points[2].z()) < (value.points[0].z() + value.points[1].z() + value.points[2].z()));
+        return ( (midle_z) < (value.midle_z));
     }
 
     bool operator == (const Polygon value) const
     {
-        return ( (points[0].z() + points[1].z() + points[2].z()) == (value.points[0].z() + value.points[1].z() + value.points[2].z()));
+        return ( (midle_z) == (value.midle_z));
     }
 
     bool operator > (const Polygon value) const
     {
-        return ( (points[0].z() + points[1].z() + points[2].z()) > (value.points[0].z() + value.points[1].z() + value.points[2].z()));
+        return ( (midle_z) > (value.midle_z));
     }
 
     bool operator != (const Polygon value) const
     {
-        return ( (points[0].z() + points[1].z() + points[2].z()) != (value.points[0].z() + value.points[1].z() + value.points[2].z()));
+        return ( (midle_z) != (value.midle_z));
     }
 
     bool operator >= (const Polygon value) const
     {
-        return ( (points[0].z() + points[1].z() + points[2].z()) >= (value.points[0].z() + value.points[1].z() + value.points[2].z()));
+        return ( (midle_z) >= (value.midle_z));
     }
 
     bool operator <= (const Polygon value) const
     {
-        return ( (points[0].z() + points[1].z() + points[2].z()) == (value.points[0].z() + value.points[1].z() + value.points[2].z()));
+        return ( (midle_z) == (value.midle_z));
     }
 
     void change_point(QMatrix4x4 ch_matrix);
 
     Point3D& operator[] (size_t index);
+
+    friend bool compare_polygons(Polygon a, Polygon b);
 private:
+    float midle_z;
     Point3D __centre();
     QVector<Point3D> points;
     Point3D _centre;

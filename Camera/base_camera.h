@@ -16,6 +16,7 @@ public:
     virtual void pitch(double angle) = 0;
     virtual void yaw(double angle) = 0;
     virtual void roll(double angle) = 0;
+    virtual bool is_Change(void) = 0;
 
 protected:
     QVector3D look;
@@ -24,6 +25,7 @@ protected:
 
     QVector3D pos;
     QVector3D target;
+    bool change_flag;
 };
 #endif // BASE_CAMERA
 

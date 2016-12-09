@@ -22,13 +22,13 @@ private:
 class file_loaderImpl_Qbjfile : public base_loaderImpl
 {
 public:
-    bool Load(base_model &Unit, const char *Name);
-    bool Load(base_model &Unit, const char *Name, QColor clr);
+    bool Load(base_model &Unit, QString Name);
+    bool Load(base_model &Unit, QString Name, QColor clr);
 private:
     QStringList file_data_list;
     QFile* file;
     void _Read_Data(base_model &Unit);
-    void _Open_File(const char *Name);
+    void _Open_File(QString Name);
     void _Close_File(void);
 };
 
@@ -38,11 +38,11 @@ class file_loader : public base_loader
 public:
     //file_loader() : base_loader(new file_loaderImpl){}
     file_loader() : base_loader(new file_loaderImpl_Qbjfile){}
-    bool Load(base_model &Unit, const char *Name)
+    bool Load(base_model &Unit, QString Name)
     {
         return this->ldImpl->Load(Unit,Name);
     }
-    bool Load(base_model &Unit, const char *Name, QColor clr)
+    bool Load(base_model &Unit, QString Name, QColor clr)
     {
         return this->ldImpl->Load(Unit,Name,clr);
     }

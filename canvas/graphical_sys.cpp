@@ -4,48 +4,42 @@
 #include <iostream>
 #include <omp.h>
 #include <parallel/algorithm>
-//#include <quick_sort.h>
 
-#include <QMessageBox>
 void Graphical_sysImpl::Draw_scene(base_painter *pntr,composit_object& composit, base_camera& cam)
 {
     //throw graphic_sys_error::model_empty();
 
     QVector<Light_source> lights;
     QVector<Polygon> polygons;
+    bool flag_cam = cam.is_Change();
     QMatrix4x4 camMatrix = cam.GetViewMatrix();
 
-    #pragma omp parallel for
     for(composit_object::iterator it = composit.begin(); it < composit.end(); ++it)
     {
-        const char* type_obj = ((base_obj*)*it)->type_object();
-        if( !strcmp(type_obj,"model") )
+        QString type_obj = ((base_obj*)*it)->type_object();
+        if( type_obj=="model" )
         {
             model* tmp_model = (model*)*it;
-            for(base_model::const_iterator it_polygon = tmp_model->begin(); it_polygon != tmp_model->end(); ++it_polygon)
+            for(base_model::iterator it_polygon = tmp_model->begin(); it_polygon < tmp_model->end(); ++it_polygon)
             {
                 Polygon tmp = *it_polygon;
-                tmp.change_point(camMatrix);
+                    tmp.change_point(camMatrix);
                 polygons.push_back(tmp);
             }
         }
         else
-            if( !strcmp(type_obj,"light_source") )
+            if( type_obj=="light_source" )
                 lights.push_back(*((Light_source*)it));
     }
-
     //qSort(polygons);
-    __gnu_parallel::sort(polygons.begin(),polygons.end());
+    __gnu_parallel::stable_sort(polygons.begin(),polygons.end());
 
-    for(int i = 0; i<polygons.size()-1; ++i)
-        if(polygons[i] > polygons[i+1])
-            qDebug()<<"ERROR";
 
     for(QVector<Polygon>::iterator it = polygons.begin(); it < polygons.end(); ++it )
     {
-        QVector3D tmp = it->normal();
         if(lights.size())
         {
+            QVector3D tmp = it->normal();
             float cos_tetha = 0;
 
             #pragma omp parallel for
@@ -74,7 +68,24 @@ void Graphical_sysImpl::Draw_scene(base_painter *pntr,composit_object& composit,
 //            pntr->draw_centre(tmp_model->get_centre());
 //        }
 //    }
- ////////////////////////
+    ////////////////////////
+}
+
+void Graphical_sysImpl::Draw_scene(base_painter *pntr, base_model *obj, base_camera &cam)
+{
+    QVector<Polygon> polygons = obj->get_polygons();
+    bool flag_cam = cam.is_Change();
+    QMatrix4x4 camMatrix = cam.GetViewMatrix();
+
+    for(QVector<Polygon>::iterator it_polygon = polygons.begin(); it_polygon < polygons.end(); ++it_polygon)
+        it_polygon->change_point(camMatrix);
+
+
+    //qSort(polygons);
+    __gnu_parallel::stable_sort(polygons.begin(),polygons.end());
+
+    for(QVector<Polygon>::iterator it = polygons.begin(); it < polygons.end(); ++it )
+        pntr->draw_polygon(*it);
 }
 
 void Graphical_sysImpl::clear_scene(base_painter *pntr)

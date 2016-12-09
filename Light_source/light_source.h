@@ -20,7 +20,7 @@ public:
 
     void execute(base_transform *transform);
 
-    const char* type_object()
+    QString type_object()
     {
         return "light_source";
     }

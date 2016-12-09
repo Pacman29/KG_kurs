@@ -3,6 +3,7 @@
 #include "camera_error.h"
 #include "base_camera.h"
 #include "Invisible_obj/invisible_obj.h"
+class camera_transformations;
 class camera : public base_camera, public invisible_obj
 {
 public:
@@ -16,13 +17,22 @@ public:
 
     void execute(base_transform *transform) override;
 
+    bool is_Change(void) override;
+
+    void inc_range(size_t value);
+    void dec_range(size_t value);
+
+
     void pitch(double angle) override;
     void yaw(double angle) override;
     void roll(double angle) override;
-
-    const char* type_object()
+    QString type_object()
     {
         return "camera";
     }
+private:
+    float distance_centre();
+    float len;
 };
+#include "camera_transformations.h"
 #endif // CAMERA_H

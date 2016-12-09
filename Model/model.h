@@ -33,7 +33,7 @@ public:
         return this->_centre;
     }
 
-    const char* type_object()
+    QString type_object()
     {
         return "model";
     }
@@ -43,6 +43,7 @@ public:
 
 
     void move(float posX = 0, float posY = 0, float posZ = 0);
+    void move_to_position(float posX = 0, float posY = 0, float posZ = 0);
     void rotate(float angle, float X,float Y ,float Z);
     void scale(float factor);
 
@@ -56,11 +57,11 @@ public:
 
     void set_color(QColor clr) override final;
 
-    QVector<Polygon>::const_iterator begin()
+    QVector<Polygon>::iterator begin()
     {
         return polygons.begin();
     }
-    QVector<Polygon>::const_iterator end()
+    QVector<Polygon>::iterator end()
     {
         return polygons.end();
     }
@@ -76,6 +77,11 @@ private:
     QVector3D _centre;
     int k_tes;
     model* high_model;
+
+    float _scale;
+    Point3D _pos;
+    Point3D _coord_rotate;
+    float _rotate;
 };
 #include "base_model_transf.h"
 #endif // MODEL_H

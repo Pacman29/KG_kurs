@@ -23,8 +23,8 @@ void tesselator::tesselate_up(model *mdl)
 {
     if(mdl->polygons.size()*4 > mdl->high_model->polygons.size())
         return;
+    mdl->inc_k_ts();
     QVector<Polygon> tmp_pol = mdl->polygons;
-    model high_model = (*mdl).get_high_model();
     mdl->polygons.clear();
 
     Point3D p1,p2,p3;
@@ -39,7 +39,7 @@ void tesselator::tesselate_up(model *mdl)
         p2 = tmp.get_middle_side(0,2);
         p3 = tmp.get_middle_side(2,1);
 
-        correct(p1, p2, p3, high_model, 0/*i/gran*256*/);
+        correct(p1, p2, p3,mdl->high_model->polygons,0);   /*i/gran*256*/
         i++;
 
         fill.set_color(tmp.get_color());
@@ -59,6 +59,7 @@ void tesselator::tesselate_down(model* mdl)
 {
     if(mdl->polygons.size()/4 <= mdl->get_low_size())
         return;
+    mdl->dec_k_ts();
     QVector<Polygon> tmp_pol = mdl->polygons;
     Polygon t_pol, res_pol;
     mdl->polygons.clear();
@@ -84,11 +85,10 @@ void tesselator::tesselate_down(model* mdl)
 }
 
 
-void tesselator::correct(Point3D &p1, Point3D &p2, Point3D &p3, model &high_model, int begin)
+void tesselator::correct(Point3D &p1, Point3D &p2, Point3D &p3,QVector<Polygon>& high_pol, int begin)
 {
-        int size = high_model.polygons.size();
+        int size = high_pol.size();
         float tmp;
-        float eps = 0.005;
         QVector<Point3D> pnts;
         pnts.push_back(p1);
         pnts.push_back(p2);
@@ -99,18 +99,17 @@ void tesselator::correct(Point3D &p1, Point3D &p2, Point3D &p3, model &high_mode
             float cur_dist = FLT_MAX;
             int pos = 0;
             int point = 0;
-
             for (int i=begin; i < size; ++i)
             {
                 for(int j = 0; j<3; ++j)
-                    if ((tmp = distance(*it, high_model.polygons[i][j]))<cur_dist)
+                    if ((tmp = distance(*it, high_pol[i][j]))<cur_dist)
                     {
                         cur_dist = tmp;
                         pos = i;
                         point = j;
                     }
             }
-            *it = high_model.polygons[pos][point];
+            *it = high_pol[pos][point];
         }
         p1 = pnts[0];
         p2 = pnts[1];

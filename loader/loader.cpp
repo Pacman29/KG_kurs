@@ -99,7 +99,7 @@ QColor file_loaderImpl::get_color(FILE *&f)
 }
 
 
-bool file_loaderImpl_Qbjfile::Load(base_model &Unit, const char *Name)
+bool file_loaderImpl_Qbjfile::Load(base_model &Unit, QString Name)
 {
     try
     {
@@ -118,7 +118,7 @@ bool file_loaderImpl_Qbjfile::Load(base_model &Unit, const char *Name)
     return true;
 }
 
-bool file_loaderImpl_Qbjfile::Load(base_model &Unit, const char *Name, QColor clr)
+bool file_loaderImpl_Qbjfile::Load(base_model &Unit, QString Name, QColor clr)
 {
     try
     {
@@ -161,7 +161,7 @@ void file_loaderImpl_Qbjfile::_Read_Data(base_model &Unit)
     }
 }
 
-void file_loaderImpl_Qbjfile::_Open_File(const char *Name)
+void file_loaderImpl_Qbjfile::_Open_File(QString Name)
 {
     this->file = new QFile(Name);
     if(!this->file->open(QFile::ReadOnly))

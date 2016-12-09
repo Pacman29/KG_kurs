@@ -10,7 +10,7 @@ public:
     {
         _model->move(_posX,_posY,_posZ);
     }
-    virtual const char* type_transform()
+    virtual QString type_transform()
     {
         return "model_trans";
     }
@@ -28,7 +28,7 @@ public:
     {
         _model->rotate(_angle,_posX,_posY,_posZ);
     }
-    virtual const char* type_transform()
+    virtual QString type_transform()
     {
         return "model_trans";
     }
@@ -37,6 +37,23 @@ private:
     float _posX;
     float _posY;
     float _posZ;
+};
+
+
+class scale : public base_model_trans
+{
+public:
+    scale(float factor = 1): _factor(factor){}
+    void execute(model* _model) override final
+    {
+        _model->scale(_factor);
+    }
+    virtual QString type_transform()
+    {
+        return "model_trans";
+    }
+private:
+    float _factor;
 };
 }
 #endif // MODEL_TRANSF_H

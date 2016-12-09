@@ -20,7 +20,8 @@ public:
 
     Point3D  operator- (const Point3D& other);
 
-
+    void inc(float x = 0,float y = 0,float z = 0);
+    
     float get(coord_type type);
     void set(coord_type type, float value);
     void set(float x = 0,float y = 0,float z = 0);

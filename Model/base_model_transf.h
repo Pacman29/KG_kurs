@@ -6,7 +6,7 @@ class base_model_trans : public Visible_trans
 {
 public:
     virtual void execute(model* _model) = 0;
-    virtual const char* type_transform()
+    virtual QString type_transform()
     {
         return "base_model_transform";
     }
