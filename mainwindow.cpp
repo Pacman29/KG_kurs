@@ -77,13 +77,13 @@ void MainWindow::on_action_triggered()
 void MainWindow::on_btn_scale_plus_clicked()
 {
 
-    this->Mgr->cam_dec_range(0,500);
+    this->Mgr->cam_dec_range(0,200);
     draw_choose_obj();
 }
 
 void MainWindow::on_btn_scale_minus_clicked()
 {
-    this->Mgr->cam_inc_range(0,500);
+    this->Mgr->cam_inc_range(0,200);
     draw_choose_obj();
 
 }
@@ -266,7 +266,9 @@ void MainWindow::on_action_2_triggered()
 {
     QMessageBox::information(this,"Информация",QString("Эта программная реализация алгоритма тесселяции объекта.\n")+
                                                QString("Для начала работы необходимо загрузить два объекта низкополигональный и\n")+
-                             QString("высокополигональный одной и той же модели в формате *.obj.\n"));
+                             QString("высокополигональный одной и той же модели в формате *.obj.\n")+
+                             QString(" Балякин Д.В. ИУ7-52. 2016 \n")););
+
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)
