@@ -80,7 +80,6 @@ void Graphical_sysImpl::Draw_scene(base_painter *pntr, base_model *obj, base_cam
     for(QVector<Polygon>::iterator it_polygon = polygons.begin(); it_polygon < polygons.end(); ++it_polygon)
         it_polygon->change_point(camMatrix);
 
-
     //qSort(polygons);
     __gnu_parallel::stable_sort(polygons.begin(),polygons.end());
 

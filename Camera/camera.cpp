@@ -7,6 +7,7 @@ camera::camera()
     this->up[1] = 1;
     this->look[2] = 1;
     this ->change_flag = 1;
+    this->len = 0;
 }
 
 camera::camera(Point3D &pos, Point3D &target, double &pitch, double &yaw, double &roll)
@@ -83,11 +84,14 @@ bool camera::is_Change()
 void camera::inc_range(size_t value)
 {
     this->len+=value;
+    this->change_flag != this->change_flag;
 }
 
 void camera::dec_range(size_t value)
 {
-    this->len-=value;
+    if(this->len - value > 0)
+        this->len-=value;
+    this->change_flag != this->change_flag;
 }
 
 void camera::pitch(double angle)

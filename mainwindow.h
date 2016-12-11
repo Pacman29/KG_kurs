@@ -26,6 +26,14 @@ private slots:
     
     void on_action_triggered();
 
+    void on_btn_scale_plus_clicked();
+
+    void on_btn_scale_minus_clicked();
+
+    void on_btn_pitch_plus_clicked();
+
+    void on_pushButton_4_clicked();
+
 private:
     Manager *Mgr;
     QPixmap *pix;

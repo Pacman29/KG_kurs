@@ -99,8 +99,12 @@ void Polygon::set_color(qreal h, qreal s, qreal l)
 
 void Polygon::change_point(QMatrix4x4 ch_matrix)
 {
+    this->midle_z = 0;
     for(QVector<Point3D>::iterator it = points.begin(); it < points.end(); ++it)
+    {
         (*it) =  ch_matrix * (*it);
+        this->midle_z += it->z();
+    }
 }
 
 Point3D& Polygon::operator[](size_t index)
