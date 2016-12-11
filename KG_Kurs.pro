@@ -96,4 +96,4 @@ DISTFILES += \
     #QMAKE_LIBS+=-static -lgomp -lpthread
     QMAKE_CXXFLAGS+=-fopenmp -D_GLIBCXX_PARALLEL
     LIBS += -fopenmp
-    #QMAKE_CXXFLAGS += -O2
+    QMAKE_CXXFLAGS += -O3

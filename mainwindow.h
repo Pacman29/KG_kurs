@@ -19,7 +19,7 @@ public:
     void _show();
     ~MainWindow();
 private:
-    void draw_choose_obj();
+    void draw_choose_obj(QTime *tm = NULL);
 private slots:
 
     void load_files(QString low, QString high, QColor clr);
@@ -45,6 +45,26 @@ private slots:
     void on_btn_roll_minus_clicked();
 
     void on_box_current_model_currentIndexChanged(int index);
+
+    void on_delete_model_pushButton_clicked();
+
+    void on_Tess_up_btn_clicked();
+
+    void on_Tess_down_btn_clicked();
+
+    void on_btn_model_scale_plus_clicked();
+
+    void on_btn_model_scale_minus_clicked();
+
+    void on_btn_move_model_plus_clicked();
+
+    void on_btn_move_model_minus_clicked();
+
+    void on_btn_rotate_model_minus_clicked();
+
+    void on_btn_rotate_model_plus_clicked();
+
+    void on_action_2_triggered();
 
 private:
     Manager *Mgr;

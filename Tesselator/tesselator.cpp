@@ -57,7 +57,7 @@ void tesselator::tesselate_up(model *mdl)
 
 void tesselator::tesselate_down(model* mdl)
 {
-    if(mdl->polygons.size()/4 <= mdl->get_low_size())
+    if(mdl->polygons.size()/4 < mdl->get_low_size())
         return;
     mdl->dec_k_ts();
     QVector<Polygon> tmp_pol = mdl->polygons;
@@ -99,18 +99,23 @@ void tesselator::correct(Point3D &p1, Point3D &p2, Point3D &p3,QVector<Polygon>&
             float cur_dist = FLT_MAX;
             int pos = 0;
             int point = 0;
+            #pragma omp parallel for shared(cur_dist,pos,point)
             for (int i=begin; i < size; ++i)
             {
                 for(int j = 0; j<3; ++j)
+                {
                     if ((tmp = distance(*it, high_pol[i][j]))<cur_dist)
                     {
                         cur_dist = tmp;
                         pos = i;
                         point = j;
                     }
+                }
             }
+            #pragma omp barrier
             *it = high_pol[pos][point];
         }
+
         p1 = pnts[0];
         p2 = pnts[1];
         p3 = pnts[2];
@@ -153,7 +158,7 @@ void tesselator::correct(Point3D &p1, Point3D &p2, Point3D &p3,QVector<Polygon>&
 
 float tesselator::distance(Point3D p1, Point3D p2)
 {
-    return pow(p1.x() - p2.x(),2) + pow(p1.y()-p2.y(),2)+pow(p1.z()-p2.z(),2);
+    return (p1.x() - p2.x())*(p1.x() - p2.x()) + (p1.y()-p2.y())*(p1.y()-p2.y()) + (p1.z()-p2.z())*(p1.z()-p2.z());
 }
 
 Point3D tesselator::get(Polygon p1, Polygon p2)

@@ -36,6 +36,7 @@ public:
     void tesselate_up(size_t id);
     void tesselate_down(size_t id);
     void load_model(QString low,QString high,QColor clr);
+    int polygon_count(size_t id);
 private:
     QVector<camera> cams;
     composit_object objects;

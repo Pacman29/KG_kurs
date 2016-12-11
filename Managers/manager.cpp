@@ -161,10 +161,8 @@ void Manager::tesselate_up(size_t id)
 {
     if(!id)
     {
-        #pragma omp parallel for
         for(composit_object::iterator it = this->objects.begin(); it<this->objects.end(); ++it)
             ts->tesselate(base_tesselator::UP,(model*)it);
-        #pragma omp barrier
     }
     else
         ts->tesselate(base_tesselator::UP,(model*)this->objects[id-1]);
@@ -174,10 +172,8 @@ void Manager::tesselate_down(size_t id)
 {
     if(!id)
     {
-        #pragma omp parallel for
         for(composit_object::iterator it = this->objects.begin(); it<this->objects.end(); ++it)
             ts->tesselate(base_tesselator::DOWN,(model*)it);
-        #pragma omp barrier
     }
     else
         ts->tesselate(base_tesselator::DOWN,(model*)this->objects[id-1]);
@@ -191,4 +187,11 @@ void Manager::load_model(QString low, QString high, QColor clr)
     this->loader->Load(*h_mdl,high,clr);
     mdl->set_high_model(*h_mdl);
     this->objects.add(mdl);
+}
+
+int Manager::polygon_count(size_t id)
+{
+    if(id<1)
+        return 0;
+    return ((model*)this->objects[id-1])->size();
 }

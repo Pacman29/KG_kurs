@@ -77,9 +77,13 @@ void Graphical_sysImpl::Draw_scene(base_painter *pntr, base_model *obj, base_cam
     bool flag_cam = cam.is_Change();
     QMatrix4x4 camMatrix = cam.GetViewMatrix();
 
-    for(QVector<Polygon>::iterator it_polygon = polygons.begin(); it_polygon < polygons.end(); ++it_polygon)
-        it_polygon->change_point(camMatrix);
-
+#pragma omp parallel for
+    for(size_t it_polygon = 0; it_polygon < polygons.size(); ++it_polygon)
+    {
+        #pragma omp critical
+        polygons[it_polygon].change_point(camMatrix);
+    }
+#pragma omp barrier
     //qSort(polygons);
     __gnu_parallel::stable_sort(polygons.begin(),polygons.end());
 
