@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QTimer>
+#include <QTime>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -35,7 +35,10 @@ void MainWindow::draw_choose_obj()
     else
     {
         int i = ui->box_current_model->currentIndex()+1;
+        QTime tm;
+        tm.start();
         this->Mgr->draw_scene(0,i);
+        ui->fps_lbl->setText("FPS: "+QString::number((double)1000/tm.elapsed()));
     }
     ui->Canvas->setPixmap(*this->pix);
 }
@@ -111,5 +114,10 @@ void MainWindow::on_btn_roll_plus_clicked()
 void MainWindow::on_btn_roll_minus_clicked()
 {
     this->Mgr->cam_roll(0,-15);
+    draw_choose_obj();
+}
+
+void MainWindow::on_box_current_model_currentIndexChanged(int index)
+{
     draw_choose_obj();
 }

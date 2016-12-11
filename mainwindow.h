@@ -44,6 +44,8 @@ private slots:
 
     void on_btn_roll_minus_clicked();
 
+    void on_box_current_model_currentIndexChanged(int index);
+
 private:
     Manager *Mgr;
     QPixmap *pix;
