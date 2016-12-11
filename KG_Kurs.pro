@@ -89,6 +89,12 @@ DISTFILES += \
     Models/cube_low.obj \
     Models/tea_high.obj \
     Models/tea_low.obj \
+    Балякин, ИУ7-52, РПЗ.docx \
+    Models/sphere_high.obj \
+    Models/sphere_low.obj \
+    Tesselation.pdf \
+    Tesselation.pptx \
+    sp.xlsx \
     Балякин, ИУ7-52, РПЗ.docx
 
     #QMAKE_LIBS+=-static -lgomp -lpthread
