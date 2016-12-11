@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //    this->Mgr->rotate_model(1,60,1,1,1);
 //    this->Mgr->move_model(1,-250);
     this->Mgr->cam_inc_range(0,1000);
-    this->Mgr->draw_scene(0,0);
+//    this->Mgr->draw_scene(0,0);
     ui->Canvas->setPixmap(*this->pix);
 }
 
@@ -28,12 +28,28 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::draw_choose_obj()
+{
+    if(!ui->box_current_model->count())
+        pix->fill();
+    else
+    {
+        int i = ui->box_current_model->currentIndex()+1;
+        this->Mgr->draw_scene(0,i);
+    }
+    ui->Canvas->setPixmap(*this->pix);
+}
+
 void MainWindow::load_files(QString low, QString high,QColor clr)
 {
+
     this->Mgr->load_model(low,high,clr);
-    this->Mgr->scale_model(1,0.125);
-    this->Mgr->draw_scene(0,1);
-    ui->Canvas->setPixmap(*this->pix);
+    QRegExp r1("\\\\|\\\/");
+    QString str1 = ".."+low.mid(low.lastIndexOf(r1));
+    QString str2 = ".."+high.mid(high.lastIndexOf(r1));
+    ui->box_current_model->addItem(str1+" \\ "+str2);
+    ui->box_current_model->setCurrentIndex(ui->box_current_model->count()-1);
+    draw_choose_obj();
     this->setEnabled(true);
 }
 
@@ -53,29 +69,47 @@ void MainWindow::on_btn_scale_plus_clicked()
 {
 
     this->Mgr->cam_dec_range(0,500);
-    this->Mgr->draw_scene(0,1);
-
-    ui->Canvas->setPixmap(*this->pix);
+    draw_choose_obj();
 }
 
 void MainWindow::on_btn_scale_minus_clicked()
 {
     this->Mgr->cam_inc_range(0,500);
-    this->Mgr->draw_scene(0,1);
-
-    ui->Canvas->setPixmap(*this->pix);
+    draw_choose_obj();
 }
 
 void MainWindow::on_btn_pitch_plus_clicked()
 {
     this->Mgr->cam_pitch(0,15);
-    this->Mgr->draw_scene(0,1);
-    ui->Canvas->setPixmap(*this->pix);
+    draw_choose_obj();
 }
 
-void MainWindow::on_pushButton_4_clicked()
+void MainWindow::on_btn_pitch_minus_clicked()
 {
     this->Mgr->cam_pitch(0,-15);
-    this->Mgr->draw_scene(0,1);
-    ui->Canvas->setPixmap(*this->pix);
+    draw_choose_obj();
+}
+
+void MainWindow::on_btn_yaw_plus_clicked()
+{
+    this->Mgr->cam_yaw(0,15);
+    draw_choose_obj();
+}
+
+void MainWindow::on_btn_yaw_minus_clicked()
+{
+    this->Mgr->cam_yaw(0,-15);
+    draw_choose_obj();
+}
+
+void MainWindow::on_btn_roll_plus_clicked()
+{
+    this->Mgr->cam_roll(0,15);
+    draw_choose_obj();
+}
+
+void MainWindow::on_btn_roll_minus_clicked()
+{
+    this->Mgr->cam_roll(0,-15);
+    draw_choose_obj();
 }

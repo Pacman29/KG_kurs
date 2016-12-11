@@ -18,6 +18,8 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     void _show();
     ~MainWindow();
+private:
+    void draw_choose_obj();
 private slots:
 
     void load_files(QString low, QString high, QColor clr);
@@ -32,7 +34,15 @@ private slots:
 
     void on_btn_pitch_plus_clicked();
 
-    void on_pushButton_4_clicked();
+    void on_btn_pitch_minus_clicked();
+
+    void on_btn_yaw_plus_clicked();
+
+    void on_btn_yaw_minus_clicked();
+
+    void on_btn_roll_plus_clicked();
+
+    void on_btn_roll_minus_clicked();
 
 private:
     Manager *Mgr;

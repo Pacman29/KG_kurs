@@ -19,7 +19,7 @@
      <item>
       <widget class="QLineEdit" name="low_lineEdit">
        <property name="text">
-        <string>/home/pacman29/Qt_proj/KG_kurs/Models/tor_low.obj</string>
+        <string>C:\KG_Kurs\Models\tor_low.obj</string>
        </property>
        <property name="placeholderText">
         <string>Низкополигональная модель</string>
@@ -40,7 +40,7 @@
      <item>
       <widget class="QLineEdit" name="high_lineEdit">
        <property name="text">
-        <string>/home/pacman29/Qt_proj/KG_kurs/Models/tor_high.obj</string>
+        <string>C:\KG_Kurs\Models\tor_high.obj</string>
        </property>
        <property name="placeholderText">
         <string>Высокополигональная модель</string>

@@ -17,6 +17,12 @@
    <layout class="QVBoxLayout" name="verticalLayout_3">
     <item>
      <widget class="QLabel" name="label_2">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>22</height>
+       </size>
+      </property>
       <property name="font">
        <font>
         <pointsize>12</pointsize>
@@ -30,7 +36,7 @@
     <item>
      <widget class="QLabel" name="Canvas">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
@@ -146,7 +152,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_4">
+            <widget class="QPushButton" name="btn_pitch_minus">
              <property name="maximumSize">
               <size>
                <width>25</width>
@@ -183,7 +189,7 @@
             </spacer>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_5">
+            <widget class="QPushButton" name="btn_yaw_plus">
              <property name="maximumSize">
               <size>
                <width>25</width>
@@ -196,7 +202,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_6">
+            <widget class="QPushButton" name="btn_yaw_minus">
              <property name="maximumSize">
               <size>
                <width>25</width>
@@ -233,7 +239,7 @@
             </spacer>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_7">
+            <widget class="QPushButton" name="btn_roll_plus">
              <property name="maximumSize">
               <size>
                <width>25</width>
@@ -246,7 +252,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_8">
+            <widget class="QPushButton" name="btn_roll_minus">
              <property name="maximumSize">
               <size>
                <width>25</width>
@@ -285,7 +291,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="comboBox_2">
+            <widget class="QComboBox" name="box_current_model">
              <property name="minimumSize">
               <size>
                <width>150</width>
@@ -541,7 +547,7 @@
      <x>0</x>
      <y>0</y>
      <width>1051</width>
-     <height>19</height>
+     <height>18</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
