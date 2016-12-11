@@ -91,7 +91,19 @@ DISTFILES += \
     Models/test2_high.obj \
     Models/test2_low.obj \
     Models/tor_high.obj \
-    Models/tor_low.obj
+    Models/tor_low.obj \
+    Models/box_high.obj \
+    Models/box_low.obj \
+    Models/cube_high.obj \
+    Models/cube_low.obj \
+    Models/high.obj \
+    Models/low.obj \
+    Models/tea_high.obj \
+    Models/tea_low.obj \
+    Models/test1.obj \
+    Models/test2.obj \
+    Models/torus_high.obj \
+    Models/torus_low.obj
 
     #QMAKE_LIBS+=-static -lgomp -lpthread
     QMAKE_CXXFLAGS+=-fopenmp -D_GLIBCXX_PARALLEL

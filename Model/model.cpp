@@ -18,6 +18,7 @@ model::~model()
         delete this->high_model;
 }
 
+
 void model::add_poligon(Point3D p1, Point3D p2, Point3D p3, QColor color)
 {
     this->polygons.push_back(Polygon(p1,p2,p3,color));

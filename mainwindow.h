@@ -66,6 +66,7 @@ private slots:
 
     void on_action_2_triggered();
 
+    void resizeEvent(QResizeEvent *event);
 private:
     Manager *Mgr;
     QPixmap *pix;

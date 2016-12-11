@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QTime>
-
+#include <QResizeEvent>
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -9,8 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&this->DirWind,SIGNAL(dialog_choosed(QString,QString,QColor)),this,SLOT(load_files(QString,QString,QColor)));
     connect(&this->DirWind,SIGNAL(dialog_closed()),this,SLOT(dir_signal_close()));
     ui->setupUi(this);
-    this->pix = new QPixmap(ui->Canvas->width(),ui->Canvas->height());
-    pix->fill();
+    this->pix = new QPixmap(ui->Canvas->maximumSize());
 
     this->Mgr = new Manager(this,new file_loader,new Graphical_sys,new painter(this->pix),new tesselator);
     this->Mgr->add_camera();
@@ -19,8 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //    this->Mgr->rotate_model(1,60,1,1,1);
 //    this->Mgr->move_model(1,-250);
     this->Mgr->cam_inc_range(0,1000);
-//    this->Mgr->draw_scene(0,0);
-    draw_choose_obj();
+    this->Mgr->draw_scene(0,0);
 }
 
 MainWindow::~MainWindow()
@@ -273,5 +271,12 @@ void MainWindow::on_action_2_triggered()
 {
     QMessageBox::information(this,"Информация",QString("Эта программная реализация алгоритма тесселяции объекта.\n")+
                                                QString("Для начала работы необходимо загрузить два объекта низкополигональный и\n")+
-                                               QString("высокополигональный одной и той же модели в формате *.obj.\n"));
+                             QString("высокополигональный одной и той же модели в формате *.obj.\n"));
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event)
+{
+    delete this->pix;
+    this->pix = new QPixmap(this->size());
+    draw_choose_obj();
 }

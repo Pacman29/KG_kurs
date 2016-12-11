@@ -146,13 +146,13 @@ void file_loaderImpl_Qbjfile::_Read_Data(base_model &Unit)
     {
         QTextStream tmp(&*it);
         tmp.seek(1);
-        if((*it)[0] == 'v')
+        if((*it)[0] == 'v' && (*it)[1] == ' ')
         {
             float x,y,z;
             tmp >> x >> y >> z;
             pnts.push_back(Point3D(x,y,z));
         }
-        if((*it)[0] == 'f')
+        if((*it)[0] == 'f' && (*it)[1] == ' ')
         {
             int x,y,z;
             tmp >> x >> y >> z;
