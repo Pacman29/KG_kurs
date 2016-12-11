@@ -88,7 +88,8 @@ DISTFILES += \
     Models/cube_high.obj \
     Models/cube_low.obj \
     Models/tea_high.obj \
-    Models/tea_low.obj
+    Models/tea_low.obj \
+    Балякин, ИУ7-52, РПЗ.docx
 
     #QMAKE_LIBS+=-static -lgomp -lpthread
     QMAKE_CXXFLAGS+=-fopenmp -D_GLIBCXX_PARALLEL
